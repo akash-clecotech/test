@@ -373,3 +373,29 @@ Error response
   }
 }
 ```
+
+curl --location 'http://localhost:8080/api/v1/supers/plans' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJhYWlfYmVfZGV2ZWxvcG1lbnQiLCJpYXQiOjE3MTUxNTEwNDUsImp0aSI6IjUxMDJjMzRlLWExOTEtNGI5OC1iNDE0LWI1NGYzZjhhZDdlMSIsInN1YiI6InFtblkxbkQ1Iiwib3JnYW5pemF0aW9uIjoiUkt6UEpZbDciLCJ1c2VyIjp7ImlkIjoicW1uWTFuRDUiLCJlbWFpbCI6ImFrYXNoLmt1bWhhcmVAY2xlY290ZWNoLmNvbSJ9fQ.egRbQRX-RRgaK8Y7LbOP7Yj5oguuyDPgC5RMo4X798j2WGhcSvRbRm6emNUiuSsoLyowjQb8JZjoXnP2pPcOyw' \
+--header 'Content-Type: application/json' \
+--data '{
+  "plan": {
+    "name": "Level 1",
+    "price": 40,
+    "interval": "month",
+    "description": "Created for testing",
+    "plan_line_items_attributes": [
+        {
+            "template_id": 1,
+            "quantity": 20,
+            "is_unlimited": false
+        },
+        {
+            "template_id": 2,
+            "quantity": 20,
+            "is_unlimited": false
+        }
+    ]
+  }
+}'
+
+
