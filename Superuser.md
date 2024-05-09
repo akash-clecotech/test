@@ -374,9 +374,10 @@ Error response
 }
 ```
 
+### Plans
 
-### POST /api/v1/supers/templates/:template_id/template_prompts
-- create new template for an organization
+### POST /api/v1/supers/plans
+- Create plan
 ```json
 {
   "Authorization": "Bearer <TOKEN>"
@@ -444,3 +445,196 @@ Error response
 }
 ```
 
+
+### GET /api/v1/supers/plans
+- Get list of plans
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Response
+```json
+{
+    "plans": [
+        {
+            "id": 1,
+            "name": "Level 1",
+            "price": "30.0",
+            "setup_cost": null,
+            "interval": "month",
+            "description": "Base Monthly Plan",
+            "plan_type": "standard",
+            "organization_id": null,
+            "organization_name": null,
+            "plan_line_items": [
+                {
+                    "id": 1,
+                    "template_id": 1,
+                    "quantity": 20,
+                    "is_unlimited": false
+                },
+                {
+                    "id": 2,
+                    "template_id": 2,
+                    "quantity": 20,
+                    "is_unlimited": false
+                }
+            ]
+        }
+    ],
+    "meta": {
+        "current_page": 1,
+        "next_page": null,
+        "prev_page": null,
+        "total_pages": 1,
+        "total_count": 1
+    }
+}
+```
+
+### GET /api/v1/supers/plans/:id
+- get plan
+
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "name": "Level 1",
+    "price": "30.0",
+    "setup_cost": null,
+    "interval": "month",
+    "description": "Base Monthly Plan",
+    "plan_type": "standard",
+    "organization_id": null,
+    "organization_name": null,
+    "plan_line_items": [
+        {
+            "id": 1,
+            "template_id": 1,
+            "quantity": 20,
+            "is_unlimited": false
+        },
+        {
+            "id": 2,
+            "template_id": 2,
+            "quantity": 20,
+            "is_unlimited": false
+        }
+    ]
+}
+```
+
+Error response
+```json
+{
+    "errors": {
+        "not_found": "Record cannot be found."
+    }
+}
+```
+
+
+### PATCH /api/v1/supers/plans/:id
+- Update plan
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Payload
+```json
+{
+  "plan": {
+    "name": "Level 2",
+    "price": 40,
+    "interval": "month",
+    "description": "Created for testing",
+    "plan_line_items_attributes": [
+        {
+            "template_id": 1,
+            "quantity": 20,
+            "is_unlimited": false
+        },
+        {
+            "template_id": 2,
+            "quantity": 20,
+            "is_unlimited": false
+        }
+    ]
+  }
+}
+```
+
+Response
+```json
+{
+  "id": "2",
+  "name": "Level 2",
+  "price": 40,
+  "interval": "month",
+  "description": "Created for testing",
+  "plan_line_items_attributes": [
+      {
+          "template_id": 1,
+          "quantity": 20,
+          "is_unlimited": false
+      },
+      {
+          "template_id": 2,
+          "quantity": 20,
+          "is_unlimited": false
+      }
+  ]
+}
+```
+
+Error response
+```json
+{
+    "errors": {
+        "is_unlimited": {
+            "key": "is_unlimited",
+            "symbol": "empty",
+            "message": null,
+            "index": null
+        }
+    }
+}
+```
+
+### DELETE /api/v1/supers/plans/:id
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Response
+```json
+{
+  "success": true
+}
+```
+
+Error response
+```json
+{
+    "errors": {
+        "stripe_service": {
+            "key": "stripe_service",
+            "symbol": "failed",
+            "message": "Failed to inactive plan in Stripe",
+            "index": null
+        }
+    }
+}
+```
