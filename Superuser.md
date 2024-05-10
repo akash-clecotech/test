@@ -808,7 +808,7 @@ Error response
 ```
 
 ### Subscription
-### api/v1/users/subscriptions/subscribed_plan
+### GET api/v1/users/subscriptions/subscribed_plan
 - get subscribed_plan
 
 ```json
@@ -854,7 +854,7 @@ Error response
 }
 ```
 
-### api/v1/users/subscriptions
+### POST api/v1/users/subscriptions
 - create new subscription
 ```json
 {
@@ -972,7 +972,7 @@ Error response
 }
 ```
 
-### /api/v1/users/subscriptions/:id/cancel
+### DELETE /api/v1/users/subscriptions/:id/cancel
 
 ```json
 {
