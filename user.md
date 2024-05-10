@@ -1463,3 +1463,318 @@ ws.onmessage = function(msg) {
   }
 }
 ```
+
+### Admin
+### Plans
+### GET /api/v1/users/plans
+- Get list of plans
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Response
+```json
+{
+    "plans": [
+        {
+            "id": 1,
+            "name": "Level 1",
+            "price": "30.0",
+            "setup_cost": null,
+            "interval": "month",
+            "description": "Base Monthly Plan",
+            "plan_type": "standard",
+            "organization_id": null,
+            "organization_name": null,
+            "members_count": null,
+            "is_subscribed": false,
+            "plan_line_items": [
+                {
+                    "id": 1,
+                    "template_name": "Meeting notes",
+                    "quantity": 20,
+                    "is_unlimited": false
+                },
+                {
+                    "id": 2,
+                    "template_name": "Share Your Thoughts",
+                    "quantity": 20,
+                    "is_unlimited": false
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Bespoke",
+            "price": "250.0",
+            "setup_cost": "3000.0",
+            "interval": "month",
+            "description": "Bespoke Special plan",
+            "plan_type": "bespoke",
+            "organization_id": 1,
+            "organization_name": "Clecotech",
+            "members_count": null,
+            "is_subscribed": true,
+            "plan_line_items": [
+                {
+                    "id": 3,
+                    "template_name": "Meeting notes",
+                    "quantity": null,
+                    "is_unlimited": true
+                },
+                {
+                    "id": 4,
+                    "template_name": "Sharing point",
+                    "quantity": null,
+                    "is_unlimited": true
+                }
+            ]
+        }
+    ]
+}
+```
+
+### GET /api/v1/users/plans/:id
+- get plan
+
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "name": "Level 1",
+    "price": "30.0",
+    "setup_cost": null,
+    "interval": "month",
+    "description": "Base Monthly Plan",
+    "plan_type": "standard",
+    "organization_id": null,
+    "organization_name": null,
+    "members_count": 2,
+    "is_subscribed": false,
+    "plan_line_items": [
+        {
+            "id": 1,
+            "template_name": "Meeting notes",
+            "quantity": 20,
+            "is_unlimited": false
+        },
+        {
+            "id": 2,
+            "template_name": "Share Your Thoughts",
+            "quantity": 20,
+            "is_unlimited": false
+        }
+    ]
+}
+```
+
+Error response
+```json
+{
+    "errors": {
+        "not_found": "Record cannot be found."
+    }
+}
+```
+
+### Subscription
+### GET api/v1/users/subscriptions/subscribed_plan
+- get subscribed_plan
+
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "card_token": "card_1PEoHF07TxYtdOaZskUBaeEG",
+    "card_brand": "Visa",
+    "card_last_digit": "4242",
+    "next_cycle_at": "2024-06-11",
+    "current_period_start": "2024-05-10",
+    "current_period_end": "2024-06-10",
+    "plan_name": "Level 1: £60 per head",
+    "transaction_id": null,
+    "plan": {
+        "id": 2,
+        "name": "Level 1: £60 per head",
+        "price": "60.0",
+        "setup_cost": null,
+        "interval": "month",
+        "description": "",
+        "plan_type": "standard",
+        "organization_id": null,
+        "organization_name": null,
+        "members_count": 2,
+        "is_subscribed": true
+    }
+}
+```
+
+Error response
+```json
+{
+    "errors": {
+        "not_found": "Record cannot be found."
+    }
+}
+```
+
+### POST api/v1/users/subscriptions
+- create new subscription
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Payload
+```json
+{
+    "plan_id": 24,
+    "stripe_token": "tok_1P94y***********d2vf8PWwXB",
+    "card_brand": "Visa",
+    "card_token": "card_1P94y*******D6d2QjFJozAr",
+    "card_last_digit": "4242"
+}
+```
+
+Response
+```json
+{
+    "id": 3,
+    "card_token": "card_1P94ylSGDBAfD6d2QjFJozAr",
+    "card_brand": "Visa",
+    "card_last_digit": "4242",
+    "next_cycle_at": "2024-06-11",
+    "current_period_start": "2024-05-10",
+    "current_period_end": "2024-06-10",
+    "plan_name": "Level 3: £150 per head",
+    "transaction_id": "ch_3PEos807TxYtdOaZ05j3579Z",
+    "plan": {
+        "id": 4,
+        "name": "Level 3: £150 per head",
+        "price": "150.0",
+        "setup_cost": null,
+        "interval": "month",
+        "description": "Level 3: £150 per head",
+        "plan_type": "standard",
+        "organization_id": null,
+        "organization_name": null,
+        "members_count": null,
+        "is_subscribed": true
+    }
+}
+```
+
+Error response
+```json
+{
+    "errors": {
+        "stripe_token": {
+            "key": "stripe_token",
+            "symbol": "stripe_error",
+            "message": "You cannot use a Stripe token more than once: tok_1PEorw07TxYtdOaZNjoRR4jL.",
+            "index": null
+        }
+    }
+}
+```
+
+### PATCH /api/v1/users/subscriptions/:id
+- Update subscription
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Payload
+```json
+{
+    "stripe_token": "tok_1P94ylSGDBAfD6d2vf8PWwXB"
+}
+```
+
+Response
+```json
+{
+    "id": 3,
+    "card_token": "card_1PEp0807TxYtdOaZ67xzFNWR",
+    "card_brand": "visa",
+    "card_last_digit": "4242",
+    "next_cycle_at": "2024-06-11",
+    "current_period_start": "2024-05-10",
+    "current_period_end": "2024-06-10",
+    "plan_name": "Level 3: £150 per head",
+    "transaction_id": null,
+    "plan": {
+        "id": 4,
+        "name": "Level 3: £150 per head",
+        "price": "150.0",
+        "setup_cost": null,
+        "interval": "month",
+        "description": "Level 3: £150 per head",
+        "plan_type": "standard",
+        "organization_id": null,
+        "organization_name": null,
+        "members_count": null,
+        "is_subscribed": true
+    }
+}
+```
+
+Error response
+```json
+{
+    "errors": {
+        "stripe_token": {
+            "key": "stripe_token",
+            "symbol": "stripe_error",
+            "message": "You cannot use a Stripe token more than once: tok_1PEorw07TxYtdOaZNjoRR4jL.",
+            "index": null
+        }
+    }
+}
+```
+
+### DELETE /api/v1/users/subscriptions/:id/cancel
+
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+
+Response
+```json
+{
+  "success": true
+}
+```
+
+Error response
+```json
+{
+    "errors": {
+        "stripe_token": {
+            "key": "stripe_subscription",
+            "symbol": "stripe_error",
+            "message": "Subscription not present.",
+            "index": null
+        }
+    }
+}
+```
